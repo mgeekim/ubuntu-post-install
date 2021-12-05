@@ -126,13 +126,9 @@ function run {
 }
 
 function install_config {
-    # get_basepath
-    # exit
     TARGET_PATH=$1
     SOURCE_PATH=$2
     mkdir -p "`dirname \"${TARGET_PATH}\"`"
-
-    echo "@@@@ SOURCE_PATH = ${SOURCE_PATH}"
 
     if ! is_file ${SOURCE_PATH}; then
         echo "Source path ${SOURCE_PATH} does not exist."
@@ -143,7 +139,7 @@ function install_config {
         rm ${TARGET_PATH}
         create_symlink ${SOURCE_PATH} ${TARGET_PATH}
     elif is_file ${TARGET_PATH}; then
-        echo "Backup and create symlink"
+        echo "Backup file and create symlink"
         backup ${TARGET_PATH}
         create_symlink ${SOURCE_PATH} ${TARGET_PATH}
     else

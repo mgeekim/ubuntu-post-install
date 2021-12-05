@@ -13,18 +13,15 @@ fi
 
 BASE_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-# cd ${BASE_PATH}
-
 . ${BASE_PATH}/SETTING
 import_dir ${BASE_PATH}/scripts
 
-# get_basepath
-
 install_config ~/.gitconfig ${BASE_PATH}/config/git/gitconfig
 
-# backup /etc/apt/sources.list
-# replace_string /etc/apt/sources.list "archive.ubuntu.com" "mirror.kakao.com"
-# replace_string /etc/apt/sources.list "security.ubuntu.com" "mirror.kakao.com"
+backup /etc/apt/sources.list
+replace_string /etc/apt/sources.list "archive.ubuntu.com" "mirror.kakao.com"
+replace_string /etc/apt/sources.list "security.ubuntu.com" "mirror.kakao.com"
+
 # run sudo apt update
 # run sudo apt upgrade
 
