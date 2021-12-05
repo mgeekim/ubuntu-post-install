@@ -1,0 +1,14 @@
+[user]
+	name = mg0721
+	email = 64mingn@gmail.com
+[color]
+	ui = auto
+[core]
+	fileMode = false
+	autocrlf = input
+	whitespaces = cr-at-eol
+	pager = less -F -X
+[push]
+	default = simple
+[http]
+	sslverify = false

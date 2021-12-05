@@ -1,4 +1,4 @@
-function import_scripts {
+function import_dir {
     local path=$1
     for SCRIPT in $path/*;
     do
@@ -6,20 +6,28 @@ function import_scripts {
     done
 }
 
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root, use sudo "$0" instead" 1>&2
-   exit 1
+if [[ $EUID -eq 0 ]]; then
+    echo "This script must be run as non-root." 1>&2
+    exit 1
 fi
 
-. SETTING
-import_scripts ./scripts/
+BASE_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-backup /etc/apt/sources.list
-replace_string /etc/apt/sources.list "archive.ubuntu.com" "mirror.kakao.com"
-replace_string /etc/apt/sources.list "security.ubuntu.com" "mirror.kakao.com"
-run sudo apt update
-run sudo apt upgrade
+# cd ${BASE_PATH}
 
-install_packages
-install_fonts
-set_git
+. ${BASE_PATH}/SETTING
+import_dir ${BASE_PATH}/scripts
+
+# get_basepath
+
+install_config ~/.gitconfig ${BASE_PATH}/config/git/gitconfig
+
+# backup /etc/apt/sources.list
+# replace_string /etc/apt/sources.list "archive.ubuntu.com" "mirror.kakao.com"
+# replace_string /etc/apt/sources.list "security.ubuntu.com" "mirror.kakao.com"
+# run sudo apt update
+# run sudo apt upgrade
+
+# install_packages
+# install_fonts
+# set_git

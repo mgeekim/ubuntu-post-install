@@ -5,6 +5,8 @@ unrar
 zip
 unzip
 
+curl
+sed
 samba
 ssh
 openssh-server
