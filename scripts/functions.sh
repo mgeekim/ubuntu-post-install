@@ -23,11 +23,8 @@ function get_list_from_file {
 }
 
 function get_basepath {
-    # echo
     BASE_PATH="$(dirname "$0")"
-    # echo ${BASE_PATH}
     BASE_PATH="$(cd "${BASE_PATH}" && pwd)/$(basename "$0")"
-    # echo ${BASE_PATH}
     if [ -z "${BASE_PATH}" ]; then
         exit 1
     fi
@@ -51,9 +48,9 @@ function is_backedup {
 
     parent="$(dirname "${TARGET}")"
     file="$(basename "${TARGET}")"
-    res="${parent}/${file}.bak_[0-9]+_[0-9]+"
+    re="${parent}/${file}.bak_[0-9]+_[0-9]+"
 
-    if [ $(find ${parent} -maxdepth 1 -regex "$re" | wc -l) -gt 0 ]; then
+    if [ $(find ${parent} -maxdepth 1 -regex "${re}" | wc -l) -gt 0 ]; then
         return 0; fi
     return 1
 }
@@ -67,15 +64,13 @@ function create_symlink {
 
 function backup {
     TARGET=$1
-    mv "${TARGET}" "${TARGET}.bak_$(date '+%Y%m%d_%H%M%S')"
+    if is_backedup ${TARGET};
+    then
+        echo "Already backed-up : ${TARGET}"
+    else
+        sudo cp "${TARGET}" "${TARGET}.bak_$(date '+%Y%m%d_%H%M%S')"
+    fi
 }
-
-# function backup {
-#     old_fpath=$1
-#     current_time=$(date "+%Y.%m.%d-%H.%M.%S")
-#     new_fpath=$old_fpath.$current_time
-#     sudo cp $old_fpath $new_fpath
-# }
 
 function replace_string {
     local fpath=$1
@@ -86,7 +81,6 @@ function replace_string {
 }
 
 function header {
-    # Format header text
     length=${#1}
     padding=$(( (72 - length) / 2))
     sep=$(printf '=%.0s' $(seq 1 $padding))
@@ -135,11 +129,11 @@ function install_config {
         return; fi
 
     if is_symbolic ${TARGET_PATH}; then
-        echo "Remove symbolic and re-create link"
+        echo "Remove symbolic and re-create link : ${TARGET_PATH}"
         rm ${TARGET_PATH}
         create_symlink ${SOURCE_PATH} ${TARGET_PATH}
     elif is_file ${TARGET_PATH}; then
-        echo "Backup file and create symlink"
+        echo "Backup file and create symlink : ${TARGET_PATH}"
         backup ${TARGET_PATH}
         create_symlink ${SOURCE_PATH} ${TARGET_PATH}
     else
