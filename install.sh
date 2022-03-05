@@ -1,5 +1,11 @@
 #!/bin/bash
 
+set -e
+sudo -v
+
+UBUNTU_MIRROR="mirror.kakao.com"
+BASE_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
 function import_dir {
     local path=$1
     for SCRIPT in $path/*;
@@ -7,11 +13,6 @@ function import_dir {
         . $SCRIPT
     done
 }
-
-set -e
-sudo -v
-
-BASE_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 source /etc/lsb-release
 source /etc/os-release
@@ -42,8 +43,8 @@ import_dir ${BASE_PATH}/scripts
 
 # Change ubuntu repository mirror
 backup /etc/apt/sources.list
-replace_string /etc/apt/sources.list "archive.ubuntu.com" "mirror.kakao.com"
-replace_string /etc/apt/sources.list "security.ubuntu.com" "mirror.kakao.com"
+replace_string /etc/apt/sources.list "archive.ubuntu.com" ${UBUNTU_MIRROR}
+replace_string /etc/apt/sources.list "security.ubuntu.com" ${UBUNTU_MIRROR}
 
 # Install .gitconfig
 install_config ~/.gitconfig ${BASE_PATH}/config/git/gitconfig
@@ -60,7 +61,7 @@ run sudo apt update
 run sudo apt upgrade
 
 # Install pacakges
-install_apt './asset/packages.list'
+install_apt "${BASE_PATH}/asset/packages.list"
 
 # Install fonts
-install_apt './asset/fonts.list'
+install_apt "${BASE_PATH}/asset/fonts.list"
