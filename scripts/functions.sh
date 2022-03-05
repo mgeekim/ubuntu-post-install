@@ -1,5 +1,6 @@
 function is_symbolic {
     TARGET=$1
+
     if [ -L "${TARGET}" ]; then
         return 0; fi
     return 1
@@ -7,6 +8,7 @@ function is_symbolic {
 
 function is_file {
     TARGET=$1
+
     if [ -f "${TARGET}" ]; then
         return 0; fi
     return 1
@@ -23,8 +25,8 @@ function get_list_from_file {
 }
 
 function get_basepath {
-    BASE_PATH="$(dirname "$0")"
-    BASE_PATH="$(cd "${BASE_PATH}" && pwd)/$(basename "$0")"
+    BASE_PATH="$(cd "$(dirname "$0")" && pwd)/$(basename "$0")"
+
     if [ -z "${BASE_PATH}" ]; then
         exit 1
     fi
