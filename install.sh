@@ -33,8 +33,6 @@ fi
 
 if grep -qEi "(Microsoft|microsoft|WSL)" /proc/version &> /dev/null; then
     :
-else
-    :
 fi
 
 # Import scripts
@@ -50,7 +48,7 @@ replace_string /etc/apt/sources.list "security.ubuntu.com" ${UBUNTU_MIRROR}
 install_config ~/.gitconfig ${BASE_PATH}/config/git/gitconfig
 
 # Create NEW ssh key
-if [ ! -f ~/.ssh/id_rsa ] ; then
+if [ ! -f ~/.ssh/id_rsa ]; then
     ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
 fi
 
@@ -60,7 +58,7 @@ sudo dpkg --add-architecture i386
 run sudo apt update
 run sudo apt upgrade
 
-# Install pacakges
+# Install apt pacakges
 install_apt "${BASE_PATH}/asset/packages.list"
 
 # Install fonts
