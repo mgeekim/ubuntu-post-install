@@ -2,7 +2,8 @@ function is_symbolic {
     TARGET=$1
 
     if [ -L "${TARGET}" ]; then
-        return 0; fi
+        return 0
+    fi
     return 1
 }
 
@@ -10,7 +11,8 @@ function is_file {
     TARGET=$1
 
     if [ -f "${TARGET}" ]; then
-        return 0; fi
+        return 0
+    fi
     return 1
 }
 
@@ -21,7 +23,7 @@ function get_list_from_file {
         if [[ ${line} != "#"* ]]; then
             echo ${line}
         fi
-    done < ${FNAME}
+    done <${FNAME}
 }
 
 function get_basepath {
@@ -41,7 +43,7 @@ function replace_or_add {
     if grep -q ${TARGET_STRING} ${FILE}; then
         sudo sed -i "/^${TARGET_STRING}*/c\\${NEW_STRING}" ${FILE}
     else
-        echo ${NEW_STRING} >> ${FILE}
+        echo ${NEW_STRING} >>${FILE}
     fi
 }
 
@@ -53,7 +55,8 @@ function already_backedup {
     re="${parent}/${file}.bak_[0-9]+_[0-9]+"
 
     if [ $(find ${parent} -maxdepth 1 -regex "${re}" | wc -l) -gt 0 ]; then
-        return 0; fi
+        return 0
+    fi
     return 1
 }
 
@@ -66,8 +69,7 @@ function create_symlink {
 
 function backup {
     TARGET=$1
-    if already_backedup ${TARGET};
-    then
+    if already_backedup ${TARGET}; then
         echo "Already backed-up : ${TARGET}"
     else
         sudo cp "${TARGET}" "${TARGET}.bak_$(date '+%Y%m%d_%H%M%S')"
@@ -84,7 +86,7 @@ function replace_string {
 
 function header {
     length=${#1}
-    padding=$(( (72 - length) / 2))
+    padding=$(((72 - length) / 2))
     sep=$(printf '=%.0s' $(seq 1 $padding))
     echo ""
     echo -e "${FORE_GREEN}$sep $1 $sep${NC}"
@@ -94,16 +96,22 @@ function ask_yesno {
     # Ask yes or no. First Param: Question, 2nd param: Default
     # Returns True for yes, False for No
     case $2 in
-        [Yy]* ) opts="[YES/no]" ;;
-        [Nn]* ) opts="[yes/NO]" ;;
+    [Yy]*) opts="[YES/no]" ;;
+    [Nn]*) opts="[yes/NO]" ;;
     esac
     while true; do
         read -rp $'\e[36m'"$1 $opts: "$'\e[97m' yn
         yn="${yn:-${2}}"
         case $yn in
-            [Yy]* ) retval=true ; break ;;
-            [Nn]* ) retval=false ; break ;;
-            * ) echo "Please answer yes or no." ;;
+        [Yy]*)
+            retval=true
+            break
+            ;;
+        [Nn]*)
+            retval=false
+            break
+            ;;
+        *) echo "Please answer yes or no." ;;
         esac
     done
     echo $retval
@@ -124,11 +132,12 @@ function run {
 function install_config {
     SOURCE_PATH=$1
     TARGET_PATH=$2
-    mkdir -p "`dirname \"${TARGET_PATH}\"`"
+    mkdir -p "$(dirname \"${TARGET_PATH}\")"
 
     if ! is_file ${SOURCE_PATH}; then
         echo "Source path ${SOURCE_PATH} does not exist."
-        return; fi
+        return
+    fi
 
     if is_symbolic ${TARGET_PATH}; then
         echo "Remove symbolic and re-create link : ${TARGET_PATH}"

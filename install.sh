@@ -5,8 +5,7 @@ sudo -v
 
 function import_dir {
     local path=$1
-    for SCRIPT in $path/*;
-    do
+    for SCRIPT in $path/*; do
         . $SCRIPT
     done
 }
@@ -29,7 +28,7 @@ function install {
         exit 0
     fi
 
-    if grep -qEi "(Microsoft|microsoft|WSL)" /proc/version &> /dev/null; then
+    if grep -qEi "(Microsoft|microsoft|WSL)" /proc/version &>/dev/null; then
         :
     fi
 
@@ -59,7 +58,10 @@ function install {
     install_apt "${BASE_PATH}/asset/fonts.list"
 }
 
-BASE_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+BASE_PATH="$(
+    cd -- "$(dirname "$0")" >/dev/null 2>&1
+    pwd -P
+)"
 . ${BASE_PATH}/SETTING
 
 import_dir ${BASE_PATH}/scripts
