@@ -10,6 +10,19 @@ function import_dir {
     done
 }
 
+function install_zsh {
+    sudo apt install -y zsh curl
+
+    # Remove 'exec zsh -l' command in a script not to enter zsh after installing
+    bash -c "$(echo "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" | sed -E 's/exec zsh -l//')"
+
+    # Donwload powerlevel10k theme
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+    install_config ${BASE_PATH}/config/zsh/zshrc ~/.zshrc
+    install_config ${BASE_PATH}/config/zsh/p10k.zsh ~/.p10k.zsh
+}
+
 function install {
     source /etc/lsb-release
     source /etc/os-release
@@ -67,3 +80,4 @@ BASE_PATH="$(
 import_dir ${BASE_PATH}/scripts
 
 install
+install_zsh
