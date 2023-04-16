@@ -3,8 +3,6 @@
 set -e
 sudo -v
 
-BASE_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
-
 function import_dir {
     local path=$1
     for SCRIPT in $path/*;
@@ -35,10 +33,6 @@ function install {
         :
     fi
 
-    # Import scripts
-    . ${BASE_PATH}/SETTING
-    import_dir ${BASE_PATH}/scripts
-
     # Change ubuntu repository mirror
     backup /etc/apt/sources.list
     replace_string /etc/apt/sources.list "archive.ubuntu.com" ${UBUNTU_MIRROR}
@@ -64,5 +58,10 @@ function install {
     # Install fonts
     install_apt "${BASE_PATH}/asset/fonts.list"
 }
+
+BASE_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+. ${BASE_PATH}/SETTING
+
+import_dir ${BASE_PATH}/scripts
 
 install
