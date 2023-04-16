@@ -44,8 +44,8 @@ function install {
     replace_string /etc/apt/sources.list "archive.ubuntu.com" ${UBUNTU_MIRROR}
     replace_string /etc/apt/sources.list "security.ubuntu.com" ${UBUNTU_MIRROR}
 
-    # Install .gitconfig
-    install_config ~/.gitconfig ${BASE_PATH}/config/git/gitconfig
+    # Install configuration files
+    install_config ${BASE_PATH}/config/git/gitconfig ~/.gitconfig
 
     # Create NEW ssh key
     if [ ! -f ~/.ssh/id_rsa ]; then

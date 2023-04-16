@@ -122,8 +122,8 @@ function run {
 }
 
 function install_config {
-    TARGET_PATH=$1
-    SOURCE_PATH=$2
+    SOURCE_PATH=$1
+    TARGET_PATH=$2
     mkdir -p "`dirname \"${TARGET_PATH}\"`"
 
     if ! is_file ${SOURCE_PATH}; then
