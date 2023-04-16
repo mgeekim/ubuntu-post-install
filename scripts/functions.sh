@@ -72,7 +72,7 @@ function backup {
     if already_backedup ${TARGET}; then
         echo "Already backed-up : ${TARGET}"
     else
-        sudo cp "${TARGET}" "${TARGET}.bak_$(date '+%Y%m%d_%H%M%S')"
+        sudo mv "${TARGET}" "${TARGET}.bak_$(date '+%Y%m%d_%H%M%S')"
     fi
 }
 
