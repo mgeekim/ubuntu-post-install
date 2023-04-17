@@ -3,14 +3,24 @@
 set -e
 sudo -v
 
-BASE_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
-
 function import_dir {
     local path=$1
-    for SCRIPT in $path/*;
-    do
+    for SCRIPT in $path/*; do
         . $SCRIPT
     done
+}
+
+function install_zsh {
+    sudo apt install -y zsh curl
+
+    # Remove 'exec zsh -l' command in a script not to enter zsh after installing
+    bash -c "$(echo "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" | sed -E 's/exec zsh -l//')"
+
+    # Donwload powerlevel10k theme
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+    install_config ${BASE_PATH}/config/zsh/zshrc ~/.zshrc
+    install_config ${BASE_PATH}/config/zsh/p10k.zsh ~/.p10k.zsh
 }
 
 function install {
@@ -31,13 +41,9 @@ function install {
         exit 0
     fi
 
-    if grep -qEi "(Microsoft|microsoft|WSL)" /proc/version &> /dev/null; then
+    if grep -qEi "(Microsoft|microsoft|WSL)" /proc/version &>/dev/null; then
         :
     fi
-
-    # Import scripts
-    . ${BASE_PATH}/SETTING
-    import_dir ${BASE_PATH}/scripts
 
     # Change ubuntu repository mirror
     backup /etc/apt/sources.list
@@ -65,4 +71,13 @@ function install {
     install_apt "${BASE_PATH}/asset/fonts.list"
 }
 
+BASE_PATH="$(
+    cd -- "$(dirname "$0")" >/dev/null 2>&1
+    pwd -P
+)"
+. ${BASE_PATH}/SETTING
+
+import_dir ${BASE_PATH}/scripts
+
 install
+install_zsh
