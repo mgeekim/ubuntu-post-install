@@ -10,6 +10,44 @@ function import_dir {
     done
 }
 
+function install_docker {
+    # Uninstall old versions
+    sudo apt-get remove docker docker-engine docker.io containerd runc
+
+    # Set up the repository
+    sudo apt-get update
+    sudo apt-get install ca-certificates curl gnupg lsb-release
+
+    # Add Docker’s official GPG key:
+    sudo install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+    # Set up the repository
+    echo \
+        "deb [arch=$(dpkg --print-architecture) \
+        signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+
+    # Install Docker Engine
+    sudo apt-get update
+    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    # Verify that the Docker Engine installation is successful
+    sudo docker run hello-world
+
+    # Add 'docker' user
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+    sudo chmod 666 /var/run/docker.sock
+
+    # Install docker-compose
+    sudo curl \
+        -SL https://github.com/docker/compose/releases/download/v2.13.0/docker-compose-linux-x86_64 \
+        -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+}
+
 function install_zsh {
     sudo apt install -y zsh curl
 
@@ -81,3 +119,4 @@ import_dir ${BASE_PATH}/scripts
 
 install
 install_zsh
+install_docker
