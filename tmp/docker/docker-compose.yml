@@ -1,0 +1,16 @@
+version: ${VERSION_COMPOSE}
+services:
+  ${SERVICE}:
+    image: $IMAGE
+    container_name: $CONTAINER
+    command: "tail -f /dev/null"
+    user: "$USERID:$GROUPID"
+    working_dir: $PWD:$PWD
+    env_file:
+      - /home/mgkim/git/ubuntu-post-install/docker/.env
+    volumes:
+      - $PWD:$PWD
+      - /etc/passwd:/etc/passwd
+      - /etc/shadow:/etc/shadow
+      - /etc/group:/etc/group
+      - /etc/gshadow:/etc/gshadow

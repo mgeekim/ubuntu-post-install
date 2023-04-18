@@ -1,0 +1,73 @@
+{
+  // "http.proxySupport": "on",
+  // "http.proxy": "http://10.114.1.180:8080",
+  // "https.proxy": "http://10.114.1.180:8080",
+
+  "workbench.colorTheme": "Monokai",
+  "workbench.colorCustomizations": {
+    "editorIndentGuide.activeBackground": "#7A7A7A",
+    "editorIndentGuide.background": "#7A7A7A",
+    "editorWhitespace.foreground": "#7A7A7A",
+    // whitespace
+    "editor.selectionBackground": "#696969",
+    // current SELECTED text
+    "editor.selectionHighlightBackground": "#696969",
+    // same content as the selection
+    // "editor.findMatchBackground": secondary, // current SEARCH MATCH
+    // "editor.findMatchHighlightBackground": "#ff7c02a1", // other SEARCH MATCHES
+    "editorRuler.foreground": "#7A7A7A"
+  },
+  "workbench.tree.indent": 25,
+  // Directory 트리에서 하위레벨을 얼마나 들여쓸지.
+  "workbench.sideBar.location": "right",
+  // 탐색기 위치.
+  "workbench.editor.enablePreview": true,
+  // 1번 클릭하면 프리뷰, 2번 클릭하면 오픈
+
+  "editor.fontSize": 14,
+  "editor.fontFamily": "Consolas, 'malgun gothic'",
+  // 뒤에 추가하면 앞에것이 없을 때 뒤에 것을 쓴다.
+  "editor.minimap.enabled": false,
+  // minimap 켤지.
+  "editor.rulers": [
+    80,
+    120
+  ],
+  "editor.renderWhitespace": "boundary",
+  // 한 칸 초과해서 뛰어지면 화이트스페이스로 표현.
+  "editor.suggestSelection": "first",
+  // 자동완성 추천 시 어떤 순서로 보여줄지. "recentlyUsed"
+  "editor.multiCursorModifier": "alt",
+  // 여러 라인에서 클릭하는 곳마다 커서 두기. 'alt가 디폴트'
+  // "editor.renderControlCharacters": false, // 차후 확인하기.
+
+  "diffEditor.ignoreTrimWhitespace": false,
+  // 비교화면에서 화이트스페이스 차이를 무시할지.
+
+  "terminal.integrated.fontFamily": "Consolas",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.lineHeight": 1,
+  "terminal.integrated.fontWeightBold": "normal",
+  "terminal.integrated.scrollback": 10000000,
+  // Terminal 버퍼 사이즈.
+  // "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+  // "terminal.integrated.shell.linux": "/usr/bin/zsh", // 사용할 shell을 설정.
+
+  "extensions.ignoreRecommendations": false,
+  // extensions 추천 기능 끌지.
+
+  "window.menuBarVisibility": "default",
+  // 파일/편집 등등의 메뉴바를 어떻게 표현할지
+  "window.openFilesInNewWindow": "default",
+  "window.zoomLevel": 0,
+  // VS code 창 전체를 확대해서 볼 수 있는 기능.
+
+  // git 관련 참고 : https://qiita.com/satokaz/items/4660ce57ca8eb456a096
+  "git.ignoreMissingGitWarning": false,
+  // GIT이 없을 경우 경고
+
+  "python.dataScience.sendSelectionToInteractiveWindow": false,
+  // Jupyter 끄기.
+
+  "cmake.configureOnOpen": true
+}
