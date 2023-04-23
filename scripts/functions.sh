@@ -132,7 +132,7 @@ function run {
 function install_config {
     SOURCE_PATH=$1
     TARGET_PATH=$2
-    mkdir -p "$(dirname \"${TARGET_PATH}\")"
+    mkdir -p "$(dirname ${TARGET_PATH})"
 
     if ! is_file ${SOURCE_PATH}; then
         echo "Source path ${SOURCE_PATH} does not exist."
